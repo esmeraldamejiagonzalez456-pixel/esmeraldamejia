@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un poquito de ti</title>
+    <!-- Importamos fuentes tipográficas elegantes de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+
+    <style>
+        .fondo-galeria {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e2f0d9, #d5e8d4, #c8e6c9);
+            font-family: 'Poppins', sans-serif;
+            transition: background 0.5s ease;
+        }
+
+        .pagina-galeria {
+            width: min(850px, 92%);
+            margin: auto;
+            padding: 35px 0 55px;
+            text-align: center;
+        }
+
+        .volver {
+            display: inline-block;
+            text-align: left;
+            color: #388e3c;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .volver:hover {
+            transform: translateX(-3px);
+        }
+
+        .subtitulo {
+            letter-spacing: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #558b2f;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(40px, 8vw, 65px);
+            color: #33691e;
+            margin: 0 0 10px 0;
+            text-shadow: 3px 4px 6px rgba(0, 0, 0, 0.15), 0 0 20px rgba(255, 255, 255, 0.9);
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            line-height: 1.2;
+        }
+
+        .texto-galeria {
+            color: #4a6b46;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        /* CARRUSEL TIPO TARJETA */
+
+        .marco-carrusel {
+            width: 100%;
+            min-height: 320px;
+            height: 62vh;
+            max-height: 580px;
+            margin: 25px auto 15px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 4px solid #ffffff;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(5px);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .diapositiva {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .diapositiva.activa {
+            display: flex;
+        }
+
+        /* EFECTO DE ZOOM SUAVE AL PASAR DE FOTO */
+        @keyframes animacionZoom {
+            0% {
+                transform: scale(0.93);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .diapositiva.activa img,
+        .diapositiva.activa video {
+            animation: animacionZoom 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .diapositiva img,
+        .diapositiva video {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 3px 3px 8px gray;
+        }
+
+        /* BOTONES Y CONTROLES */
+
+        .controles {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 22px 0;
+        }
+
+        #contador {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            color: #33691e;
+            background: #ffffff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #c8e6c9;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .boton {
+            padding: 12px 24px;
+            background: #689f38;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: background 0.4s ease, transform 0.2s ease;
+        }
+
+        .boton:hover {
+            transform: translateY(-2px);
+        }
+
+        .volver-galeria {
+            display: inline-block;
+            color: #388e3c;
+            margin-top: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .volver-galeria:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 500px) {
+            .marco-carrusel {
+                height: 50vh;
+                padding: 10px;
+            }
+
+            .controles {
+                gap: 10px;
+            }
+
+            .boton {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+        }
+
+        .reproductor-flotante {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 250, 252, 0.95);
+            border: 2px solid deeppink;
+            padding: 12px 16px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(150, 70, 105, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            font-family: Arial, sans-serif;
+            max-width: 290px;
+        }
+
+        .reproductor-foto {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid lightcoral;
+            box-shadow: 0 3px 10px rgba(216, 135, 169, 0.4);
+            flex-shrink: 0;
+        }
+
+        .reproductor-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .reproductor-info span {
+            font-size: 12px;
+            color: hotpink;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .reproductor-flotante audio {
+            width: 100%;
+            height: 28px;
+            outline: none;
+        }
+
+        @media(max-width: 500px) {
+            .reproductor-flotante {
+                bottom: 12px;
+                right: 12px;
+                left: 12px;
+                max-width: none;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body class="fondo-galeria" id="cuerpoPagina">
+
+    <main class="pagina-galeria">
+
+        <a class="volver" href="index.html" id="enlaceVolver">
+            ← Volver al inicio
+        </a>
+
+        <p class="subtitulo" id="textoSub"></p>
+
+        <h1 id="textoTitulo">And I'm in love with you And all these little things♡</h1>
+        
+        <p class="texto-galeria"></p>
+
+        <!-- CARRUSEL DE FOTOS Y VIDEOS -->
+        <section class="marco-carrusel" id="marcoCarrusel">
+            <!-- 1. AMARILLO -->
+            <div class="diapositiva activa" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (1).jpeg" alt="Fotografía 1">
+            </div>
+            <!-- 2. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="vale1/vale1 (2).jpeg" alt="Fotografía 2">
+            </div>
+            <!-- 3. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <video src="videos/video (42).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 4. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="vale1/vale1 (3).jpeg" alt="Fotografía 3">
+            </div>
+            <!-- 5. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <img src="vale1/vale1 (4).jpeg" alt="Fotografía 4">
+            </div>
+            <!-- 6. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <video src="videos/video (40).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 7. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (5).jpeg" alt="Fotografía 5">
+            </div>
+            <!-- 8. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="vale1/vale1 (6).jpeg" alt="Fotografía 6">
+            </div>
+            <!-- 9. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <img src="vale1/vale1 (7).jpeg" alt="Fotografía 7">
+            </div>
+            <!-- 10. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="vale1/vale1 (8).jpeg" alt="Fotografía 8">
+            </div>
+            <!-- 11. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <video src="videos/45.mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 12. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <img src="vale1/vale1 (9).jpeg" alt="Fotografía 9">
+            </div>
+            <!-- 13. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (10).jpeg" alt="Fotografía 10">
+            </div>
+            <!-- 14. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="vale1/vale1 (11).jpeg" alt="Fotografía 11">
+            </div>
+            <!-- 15. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <video src="videos/47.mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 16. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="vale1/vale1 (12).jpeg" alt="Fotografía 12">
+            </div>
+            <!-- 17. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <img src="vale1/vale1 (35).jpeg" alt="Fotografía 13">
+            </div>
+            <!-- 18. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <video src="videos/video (33).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 19. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (31).jpeg" alt="Fotografía 14">
+            </div>
+            <!-- 20. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="vale1/vale1 (22).jpeg" alt="Fotografía 15">
+            </div>
+            <!-- 21. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <img src="vale1/vale1 (23).jpeg" alt="Fotografía 16">
+            </div>
+            <!-- 22. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="vale1/vale1 (24).jpeg" alt="Fotografía 17">
+            </div>
+            <!-- 23. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <video src="videos/video (34).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 24. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <img src="vale1/vale1 (25).jpeg" alt="Fotografía 18">
+            </div>
+            <!-- 25. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (26).jpeg" alt="Fotografía 19">
+            </div>
+            <!-- 26. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="vale1/vale1 (27).jpeg" alt="Fotografía 20">
+            </div>
+            <!-- 27. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <video src="videos/video (41).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 28. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="vale1/vale1 (28).jpeg" alt="Fotografía 21">
+            </div>
+            <!-- 29. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <img src="vale1/vale1 (29).jpeg" alt="Fotografía 22">
+            </div>
+            <!-- 30. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <video src="videos/video (36).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 31. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (30).jpeg" alt="Fotografía 23">
+            </div>
+            <!-- 32. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="vale1/vale1 (63).jpeg" alt="Fotografía 24">
+            </div>
+            <!-- 33. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <img src="vale1/vale1 (32).jpeg" alt="Fotografía 25">
+            </div>
+            <!-- 34. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="vale1/vale1 (33).jpeg" alt="Fotografía 26">
+            </div>
+            <!-- 35. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <video src="videos/video (39).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 36. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <img src="vale1/vale1 (64).jpeg" alt="Fotografía 27">
+            </div>
+            <!-- 37. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (66).jpeg" alt="Fotografía 28">
+            </div>
+            <!-- 38. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="vale1/vale1 (36).jpeg" alt="Fotografía 29">
+            </div>
+            <!-- 39. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <video src="videos/video (25).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 40. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="vale1/vale1 (37).jpeg" alt="Fotografía 30">
+            </div>
+            <!-- 41. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <img src="vale1/vale1 (38).jpeg" alt="Fotografía 31">
+            </div>
+            <!-- 42. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <video src="videos/video (16).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 43. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (39).jpeg" alt="Fotografía 32">
+            </div>
+            <!-- 44. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="vale1/vale1 (40).jpeg" alt="Fotografía 33">
+            </div>
+            <!-- 45. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <img src="vale1/vale1 (41).jpeg" alt="Fotografía 34">
+            </div>
+            <!-- 46. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="vale1/vale1 (43).jpeg" alt="Fotografía 35">
+            </div>
+            <!-- 47. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <video src="videos/video (31).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 48. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <img src="vale1/vale1 (44).jpeg" alt="Fotografía 36">
+            </div>
+            <!-- 49. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (45).jpeg" alt="Fotografía 37">
+            </div>
+            <!-- 50. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="vale1/vale1 (46).jpeg" alt="Fotografía 38">
+            </div>
+            <!-- 51. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <video src="videos/video (17).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 52. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="vale1/vale1 (50).jpeg" alt="Fotografía 39">
+            </div>
+            <!-- 53. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <img src="vale1/vale1 (51).jpeg" alt="Fotografía 40">
+            </div>
+            <!-- 54. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <video src="videos/video (22).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 55. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (52).jpeg" alt="Fotografía 41">
+            </div>
+            <!-- 56. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="vale1/vale1 (55).jpeg" alt="Fotografía 42">
+            </div>
+            <!-- 57. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <img src="vale1/vale1 (56).jpeg" alt="Fotografía 43">
+            </div>
+            <!-- 58. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="vale1/vale1 (59).jpeg" alt="Fotografía 44">
+            </div>
+            <!-- 59. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <video src="videos/video (18).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 60. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <img src="vale1/vale1 (62).jpeg" alt="Fotografía 45">
+            </div>
+            <!-- 61. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (66).jpeg" alt="Fotografía 28">
+            </div>
+            <!-- 62. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="vale1/vale1 (67).jpeg" alt="Fotografía 29">
+            </div>
+            <!-- 63. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <video src="videos/video (37).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 64. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="vale1/vale1 (68).jpeg" alt="Fotografía 30">
+            </div>
+            <!-- 65. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <img src="vale1/vale1 (69).jpeg" alt="Fotografía 31">
+            </div>
+            <!-- 66. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <video src="videos/video (35).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 67. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (70).jpeg" alt="Fotografía 32">
+            </div>
+            <!-- 68. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="vale1/vale1 (71).jpeg" alt="Fotografía 33">
+            </div>
+            <!-- 69. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <img src="vale1/vale1 (72).jpeg" alt="Fotografía 34">
+            </div>
+            <!-- 70. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="vale1/vale1 (73).jpeg" alt="Fotografía 35">
+            </div>
+            <!-- 71. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <video src="videos/48.mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 72. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <img src="vale1/vale1 (74).jpeg" alt="Fotografía 36">
+            </div>
+            <!-- 73. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="vale1/vale1 (75).jpeg" alt="Fotografía 37">
+            </div>
+            <!-- 74. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="valeyesme/v (1).jpg" alt="Fotografía 38">
+            </div>
+            <!-- 75. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <video src="videos/video (30).mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 76. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="valeyesme/v (2).jpg" alt="Fotografía 39">
+            </div>
+            <!-- 77. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <img src="valeyesme/v (4).jpg" alt="Fotografía 40">
+            </div>
+            <!-- 78. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <video src="videos/78.mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 79. AMARILLO -->
+            <div class="diapositiva" data-color="#f1c40f" data-bg="linear-gradient(135deg, #fef9e7, #fcf3cf, #f9e79f)">
+                <img src="valeyesme/v (5).jpg" alt="Fotografía 41">
+            </div>
+            <!-- 80. ROJO -->
+            <div class="diapositiva" data-color="#e74c3c" data-bg="linear-gradient(135deg, #fdedec, #fadbd8, #f5b7b1)">
+                <img src="valeyesme/v (6).jpg" alt="Fotografía 42">
+            </div>
+            <!-- 81. AZUL -->
+            <div class="diapositiva" data-color="#3498db" data-bg="linear-gradient(135deg, #ebf5fb, #ebedef, #a9cce3)">
+                <img src="valeyesme/v (11).jpg" alt="Fotografía 43">
+            </div>
+            <!-- 82. ROSA -->
+            <div class="diapositiva" data-color="#e84393" data-bg="linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1)">
+                <img src="valeyesme/v (10).jpg" alt="Fotografía 44">
+            </div>
+            <!-- 83. VERDE -->
+            <div class="diapositiva" data-color="#2ecc71" data-bg="linear-gradient(135deg, #e8f8f5, #d4efdf, #a9dfbf)">
+                <video src="videos/46.mp4" controls autoplay muted playsinline></video>
+            </div>
+            <!-- 84. MORADO -->
+            <div class="diapositiva" data-color="#9b59b6" data-bg="linear-gradient(135deg, #f4ecf7, #ebdef0, #d2b4de)">
+                <img src="valeyesme/v (12).jpg" alt="Fotografía 45">
+            </div>
+        </section>
+
+        <!-- CONTROLES -->
+        <div class="controles">
+            <button class="boton" id="anterior">← Anterior</button>
+            <span id="contador">1 / 84</span>
+            <button class="boton" id="siguiente">Siguiente →</button>
+        </div>
+
+        <a class="volver-galeria" href="carta.html" id="enlaceCarta">
+            Leer la carta otra vez 
+        </a>
+
+    </main>
+
+    <!-- REPRODUCTOR FLOTANTE -->
+    <div class="reproductor-flotante">
+        <img src="vale1/vale1 (60).jpeg" alt="Foto musical" class="reproductor-foto">
+        <div class="reproductor-info">
+            <span>♪Amo verte crecer mi niña♡</span>
+            <audio controls loop>
+                <source src="audios/audio2.mp3" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+            </audio>
+        </div>
+    </div>
+
+    <!-- SCRIPT CORREGIDO Y FLUIDO -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const diapositivas = document.querySelectorAll(".diapositiva");
+            const anterior = document.getElementById("anterior");
+            const siguiente = document.getElementById("siguiente");
+            const contador = document.getElementById("contador");
+            const marco = document.getElementById("marcoCarrusel");
+            const cuerpo = document.getElementById("cuerpoPagina");
+            const enlaceVolver = document.getElementById("enlaceVolver");
+            const textoSub = document.getElementById("textoSub");
+            const textoTitulo = document.getElementById("textoTitulo");
+            const enlaceCarta = document.getElementById("enlaceCarta");
+            let actual = 0;
+
+            function actualizarColores(index) {
+                const colorHex = diapositivas[index].getAttribute("data-color");
+                const bgGradient = diapositivas[index].getAttribute("data-bg");
+
+                // Cambiar fondo de la página de forma fluida
+                cuerpo.style.background = bgGradient;
+
+                // Cambiar bordes y sombras del marco de la foto
+                marco.style.borderColor = colorHex;
+                marco.style.boxShadow = `0 15px 35px ${colorHex}33, 0 5px 15px rgba(0,0,0,0.05)`;
+
+                // Aplicar el color actual a los textos y botones
+                enlaceVolver.style.color = colorHex;
+                textoSub.style.color = colorHex;
+                textoTitulo.style.color = colorHex;
+                contador.style.color = colorHex;
+                contador.style.borderColor = colorHex;
+                anterior.style.background = colorHex;
+                siguiente.style.background = colorHex;
+                enlaceCarta.style.color = colorHex;
+            }
+
+            function mostrarDiapositiva(numero) {
+                diapositivas.forEach(function(diapositiva, idx) {
+                    const video = diapositiva.querySelector("video");
+                    if (idx === numero) {
+                        diapositiva.classList.add("activa");
+                    } else {
+                        diapositiva.classList.remove("activa");
+                        if (video) {
+                            video.pause();
+                            video.currentTime = 0;
+                        }
+                    }
+                });
+
+                contador.textContent = (numero + 1) + " / " + diapositivas.length;
+                actualizarColores(numero);
+            }
+
+            // Inicializar página con el primer elemento
+            actualizarColores(0);
+
+            siguiente.addEventListener("click", function() {
+                actual++;
+                if (actual >= diapositivas.length) {
+                    actual = 0; // Vuelve al inicio si llega al final
+                }
+                mostrarDiapositiva(actual);
+            });
+
+            anterior.addEventListener("click", function() {
+                actual--;
+                if (actual < 0) {
+                    actual = diapositivas.length - 1; // Va al final si está en el primero
+                }
+                mostrarDiapositiva(actual);
+            });
+        });
+    </script>
+</body>
+</html>

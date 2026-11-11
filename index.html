@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz cumpleaños, princesa</title>
+    <!-- Importamos fuentes tipográficas elegantes de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+<style>
+    
+   * { box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: #874765;
+    background: #80AAC2;
+}
+.portada {
+    min-height: 100vh;
+    padding: 35px 18px;
+    text-align: center;
+    background-color: #fbd3e2;
+    background-image: 
+        linear-gradient(rgba(135, 71, 101, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(135, 71, 101, 0.12) 1px, transparent 1px),
+        linear-gradient(135deg, #A4C9DE, #fbd3e2, #8476A6);
+    background-size: 35px 35px, 35px 35px, 100% 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.brillitos {
+    color: #d77da2;
+    font-size: 24px;
+    letter-spacing: 10px;
+    margin: 10px;
+}
+
+.subtitulo {
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 5px;
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 300;
+    color: #89B584;
+    text-transform: uppercase;
+    margin: 5px 0;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9), 0 0 10px rgba(116, 158, 90, 0.4);
+}
+
+h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(65px, 15vw, 115px);
+    font-weight: normal;
+    color: #84B479;
+    margin: -10px 0 10px 0;
+    text-shadow: 3px 4px 0px #ffffff, 0 0 25px rgba(130, 186, 110, 0.6);
+    position: relative;
+    z-index: 2;
+    line-height: 1.1;
+}
+h1::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 70%;
+    background: rgba(255, 255, 255, 0.6);
+    filter: blur(30px);
+    z-index: -1;
+    border-radius: 50%;
+}
+
+.dedicatoria, .texto-galeria {
+    font-size: 18px;
+    margin: 8px 0 20px;
+}
+
+.pastel {
+    width: 230px;
+    height: 190px;
+    position: relative;
+    margin: 35px auto 18px;
+}
+
+.capa {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 3px solid #F27777;
+    box-shadow: inset 0 -7px 0 rgba(190, 91, 133, 0.12);
+}
+
+.capa-superior {
+    bottom: 105px;
+    width: 130px;
+    height: 42px;
+    background: #fff9fb;
+    border-radius: 12px 12px 5px 5px;
+}
+
+.capa-media {
+    bottom: 58px;
+    width: 175px;
+    height: 52px;
+    background: #D96666;
+    border-radius: 8px;
+}
+
+.capa-inferior {
+    bottom: 10px;
+    width: 215px;
+    height: 54px;
+    background: #CC3737;
+    border-radius: 8px 8px 13px 13px;
+}
+
+.base-pastel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 230px;
+    height: 12px;
+    border-radius: 50%;
+    background: #c96f96;
+}
+
+.chispita {
+    display: inline-block;
+    color: #e58aad;
+    font-size: 17px;
+    margin: 8px 17px;
+}
+
+.velas {
+    position: absolute;
+    z-index: 2;
+    bottom: 145px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 23px;
+}
+
+.vela {
+    width: 10px;
+    height: 43px;
+    border-radius: 4px;
+    background: repeating-linear-gradient(135deg, #fff 0 5px, #D62D2D 5px 9px);
+    position: relative;
+}
+
+.llama {
+    position: absolute;
+    width: 13px;
+    height: 19px;
+    background: #ffc95c;
+    border-radius: 80% 10% 80% 80%;
+    transform: rotate(45deg);
+    top: -21px;
+    left: -2px;
+    box-shadow: 0 0 13px #ffcf72;
+    animation: bailar 0.7s infinite alternate;
+}
+
+@keyframes bailar {
+    from { transform: rotate(38deg) scale(0.9); }
+    to { transform: rotate(52deg) scale(1.08); }
+}
+
+.llama.apagada {
+    display: none;
+}
+
+.boton, .boton-claro {
+    display: inline-block;
+    border: 0;
+    border-radius: 25px;
+    padding: 12px 22px;
+    background: #c87598;
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    transition: 0.2s;
+}
+
+.boton:hover, .boton-claro:hover {
+    background: #a95078;
+    transform: translateY(-2px);
+}
+
+.boton-claro {
+    background: #fff;
+    color: #ad5c80;
+    border: 1px solid #e7b2c8;
+}
+
+.mensaje-velas {
+    min-height: 22px;
+    font-style: italic;
+}
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.menu a {
+    color: #a94f77;
+    background: rgba(255,255,255,0.8);
+    border: 1px solid #efc0d3;
+    padding: 14px 22px;
+    border-radius: 18px;
+    text-decoration: none;
+}
+
+.menu a:hover {
+    background: white;
+    transform: scale(1.04);
+} 
+
+.contenedor-polaroids {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin: 40px auto;
+}
+
+.polaroid {
+    background-color: white;
+    padding: 10px 10px 25px 10px;
+    width: 160px;
+    box-shadow: 3px 5px 12px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.polaroid img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.foto1 {
+    transform: rotate(-8deg);
+}
+
+.foto2 {
+    transform: rotate(5deg);
+}
+
+.foto3 {
+    transform: rotate(-4deg);
+}
+
+.polaroid:hover {
+    transform: scale(1.1) rotate(0deg);
+    z-index: 2;
+}
+
+/* ESTILOS DE LAS PARTÍCULAS */
+.particulas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.particula {
+    position: absolute;
+    bottom: -40px;
+    color: #e28fae;
+    animation: flotarParticula 3s linear infinite;
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+}
+
+.portada > *:not(.particulas) {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes flotarParticula {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    15% {
+        opacity: 0.8;
+    }
+    85% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-105vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.reproductor {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    width: 330px;
+    max-width: 90%;
+    padding: 15px;
+    margin: 25px auto;
+    background: linear-gradient(135deg, #ffe4ef, #e9ddff, #dff5ff);
+    border: 2px solid white;
+    border-radius: 25px;
+    box-shadow: 0 5px 15px rgba(160, 120, 180, 0.25);
+}
+
+.disco {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d9a7ff, #f5a9c8);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    border: 3px solid white;
+    animation: girar 4s linear infinite;
+}
+
+@keyframes girar {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.info-musica {
+    text-align: left;
+    flex: 1;
+}
+
+.info-musica h3 {
+    color: #9b69ad;
+    font-size: 15px;
+    margin: 0 0 5px;
+}
+
+.info-musica p {
+    color: #9b829c;
+    font-size: 11px;
+    margin: 0;
+}
+
+.controles-musica {
+    display: flex;
+    gap: 6px;
+}
+
+.controles-musica button {
+    background: white;
+    color: #bd83c9;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px #d8b9df;
+}
+
+.controles-musica button:hover {
+    background: #f8d9eb;
+    transform: scale(1.1);
+}
+
+/* SECCIÓN DE RECUERDOS */
+.seccion-recuerdos {
+    width: 90%;
+    max-width: 850px;
+    margin: 70px auto;
+    padding: 35px 20px;
+    text-align: center;
+    background: linear-gradient(
+        135deg,
+        #ffe4f1,
+        #e9dcff,
+        #d9f0ff
+    );
+    border-radius: 30px;
+    box-shadow: 0 10px 30px #a66ba655;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.seccion-recuerdos h2 {
+    color: #436b3f;
+    font-size: 30px;
+    text-shadow: 2px 2px 5px white;
+    margin-bottom: 10px;
+}
+
+.subtitulo-recuerdos {
+    color: #4a6b46;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.estrellitas {
+    color: #689f38;
+    font-size: 25px;
+    margin-bottom: 15px;
+    animation: brillar 2s infinite alternate;
+}
+
+.marco-video {
+    max-width: 650px;
+    width: 95%;
+    margin: auto;
+    padding: 13px;
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #c8e6c9,
+        #ffffff
+    );
+    border: 3px solid white;
+    border-radius: 25px;
+    box-shadow: 0 0 20px #81c784;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.etiqueta-video {
+    color: #388e3c;
+    font-weight: bold;
+    letter-spacing: 3px;
+    padding: 12px;
+    font-size: 13px;
+}
+
+.marco-video video {
+    width: 100%;
+    max-height: 380px;
+    display: block;
+    border-radius: 15px;
+    background: #29202d;
+    object-fit: contain;
+}
+
+.decoracion-video {
+    color: #689f38;
+    font-size: 25px;
+    padding-top: 10px;
+}
+
+.seccion-recuerdos h3 {
+    color: #436b3f;
+    font-size: 22px;
+    margin-top: 30px;
+}
+
+.mensaje-video {
+    color: #3b5c37;
+    line-height: 1.8;
+    font-size: 15px;
+    max-width: 550px;
+    margin: auto;
+}
+
+.corazones-video {
+    font-size: 25px;
+    color: #66bb6a;
+    margin-top: 25px;
+    animation: flotarTexto 2s infinite ease-in-out;
+}
+
+@keyframes brillar {
+    from {
+        opacity: 0.5;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1.08);
+    }
+}
+
+@keyframes flotarTexto {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+</style>
+</head>
+<body>
+    <header class="portada">
+        <div class="particulas"></div>
+        <div class="brillitos">♡ ✧ ♡ ✧ ♡</div>
+        <p class="subtitulo">Felices 18</p>
+        <h1>¡Feliz cumpleaños!</h1>
+        <p class="dedicatoria">Para la niña de mis ojos, Te amo con toda mi alma valesita</p>
+        
+        <div class="contenedor-polaroids">
+            <div class="reproductor">
+                <div class="disco">♫</div>
+                <div class="info-musica">
+                    <h3>TE AMOOOOO ♡</h3>
+                    <p>Eres la unica persona en la que pienso</p>
+                </div>
+                <audio id="musica" loop>
+                    <source src="audios/audio1.mp3" type="audio/mpeg">
+                </audio>
+                <div class="controles-musica">
+                    <button onclick="document.getElementById('musica').play()">▶</button>
+                    <button onclick="document.getElementById('musica').pause()">Ⅱ</button>
+                </div>
+            </div>
+
+            <div class="polaroid foto1">
+                <img src="vale1/vale1 (61).jpeg" alt="Foto 1">
+            </div>
+
+            <div class="polaroid foto2">
+                <img src="vale1/vale1 (42).jpeg" alt="Foto 2">
+            </div>
+
+            <div class="polaroid foto3">
+                <img src="vale1/vale1 (21).jpeg" alt="Foto 3">
+            </div>
+        </div>
+
+        <div class="pastel" aria-label="Pastel de cumpleaños decorativo">
+            <div class="velas">
+                <div class="vela"><span class="llama"></span></div>
+                <div class="vela"><span class="llama"></span></div>
+                <div class="vela"><span class="llama"></span></div>
+            </div>
+            <div class="capa capa-superior"><span class="chispita">♡</span><span class="chispita">♡</span></div>
+            <div class="capa capa-media"></div>
+            <div class="capa capa-inferior"></div>
+            <div class="base-pastel"></div>
+        </div>
+
+        <button class="boton boton-claro" id="soplar">Sopla las velitas 🤍</button>
+        <p class="mensaje-velas" id="mensajeVelas">Pide un deseo antes de soplar ♡</p>
+
+        <section class="seccion-recuerdos">
+            <div class="estrellitas">✧ ˚ · ♡ · ˚ ✧</div>
+            <p class="subtitulo-recuerdos">
+            Antes de ser mi novia, antes de conocerte y antes de que nuestras vidas coincidieran, fuiste esta pequeñita que llenaba de alegría a quienes la rodeaban,
+            me hubiera encantado conocerte desde pequeña, verte crecer y acompañarte en cada etapa, aunque no pude estar ahí, hoy me 
+            hace muy feliz poder conocer cada versión de ti y amar a la hermosa personita que eres, de verdad deseo envejecer a tu lado.
+            </p>
+
+            <div class="marco-video">
+                <div class="etiqueta-video">♡ ♡</div>
+                <video controls autoplay muted loop playsinline>
+                    <source src="videos/video (28).mp4" type="video/mp4">
+                    Tu navegador no puede reproducir este video.
+                </video>
+                <div class="decoracion-video">♡ ✧ ♡</div>
+            </div>
+
+            <p class="mensaje-video">
+                Espero que cuando vuelvas a visitar esta pequeña página recuerdes cuánto te amo y lo feliz que me hace celebrar un año 
+                de tu vida.
+        
+            </p>
+
+            <div class="corazones-video">
+                ♡ ♡ ♡ ♡ ♡
+            </div>
+        </section>
+
+        <nav class="menu">
+            <a href="carta.html">Para mi ricitos</a>
+            <a href="galeria.html">Tus recuerdos</a>
+        </nav>
+        <div class="brillitos abajo">Hecho con mucho cariño por tu novia ♡</div>
+    </header>
+
+    <!-- Script para generar las partículas flotantes -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const contenedorParticulas = document.querySelector(".particulas");
+            if (!contenedorParticulas) return;
+
+            const simbolos = ["♡", "✧", "⋆", "·", "⁂"];
+            const cantidadParticulas = 22;
+
+            for (let i = 0; i < cantidadParticulas; i++) {
+                const particula = document.createElement("span");
+                particula.classList.add("particula");
+                particula.textContent = simbolos[Math.floor(Math.random() * simbolos.length)];
+                
+                particula.style.left = Math.random() * 100 + "%";
+                particula.style.fontSize = (Math.random() * 10 + 12) + "px";
+                
+                const duracion = Math.random() * 5 + 6; 
+                const retraso = Math.random() * 5;     
+                
+                particula.style.animationDuration = duracion + "s";
+                particula.style.animationDelay = retraso + "s";
+                
+                contenedorParticulas.appendChild(particula);
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

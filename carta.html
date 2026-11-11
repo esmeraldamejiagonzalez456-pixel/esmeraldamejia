@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una carta para ti</title>
+    <link rel="stylesheet" href="estilos.css">
+
+    <style>
+        .fondo-carta, .fondo-galeria {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff0f5, #f8dce8);
+        }
+
+        .pagina-carta, .pagina-galeria {
+            width: min(850px, 92%);
+            margin: auto;
+            padding: 35px 0 55px;
+            text-align: center;
+        }
+
+        .volver {
+            display: block;
+            text-align: left;
+            color: ##a95078;
+            text-decoration: none;
+            margin-bottom: 25px;
+            font-family: Arial, sans-serif;
+        }
+
+        .papel {
+            max-width: 700px;
+            margin: 20px auto 28px;
+            padding: clamp(25px, 6vw, 55px);
+            background: #fffafc;
+            border: 1px solid ##efc3d5;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(150, 70, 105, 0.12);
+            text-align: left;
+            line-height: 1.9;
+            font-size: 17px;
+        }
+
+        .papel h1 {
+            color: #71619B;
+            text-shadow:2px 2px 3px gray;
+            text-align: center;
+            font-size: clamp(32px, 6vw, 48px);
+            margin-bottom: 30px;
+        }
+
+        .firma {
+            text-align: right;
+            color: #3273C2;
+            font-style: italic;
+        }
+
+        /* FOTOS */
+
+        .seccion-recuerdos {
+            margin: 40px auto;
+            max-width: 750px;
+        }
+
+        .seccion-recuerdos h2 {
+            color: #617B9B;
+            text-shadow:2px 2px 3px gray;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .seccion-recuerdos p {
+            color: #341B4D;
+            margin-bottom: 25px;
+        }
+
+        .galeria-fotos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .galeria-fotos img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px #d9a7bb;
+            transition: transform 0.3s;
+        }
+
+        .galeria-fotos img:hover {
+            transform: scale(1.04);
+        }
+
+        /* VIDEOS */
+
+        .seccion-videos {
+            margin: 45px auto;
+            max-width: 700px;
+        }
+
+        .seccion-videos h2 {
+            color: #617B9B;
+            text-shadow:2px 2px 3px gray;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .video-recuerdo {
+            width: 100%;
+            margin: 15px auto;
+            border-radius: 18px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px #d9a7bb;
+        }
+
+        .boton {
+            display: inline-block;
+            padding: 13px 25px;
+            background: #d887a9;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 15px;
+        }
+
+        @media(max-width: 500px) {
+            .galeria-fotos {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* REPRODUCTOR DE AUDIO FLOTANTE Y BONITO */
+        .reproductor-flotante {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 250, 252, 0.95);
+            border: 2px solid #619B63;
+            padding: 12px 16px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(150, 70, 105, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            font-family: Arial, sans-serif;
+            max-width: 290px;
+        }
+
+        .reproductor-foto {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #619B63;
+            box-shadow: 0 3px 10px rgba(216, 135, 169, 0.4);
+            flex-shrink: 0;
+        }
+
+        .reproductor-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .reproductor-info span {
+            font-size: 12px;
+            color: #619B63;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .reproductor-flotante audio {
+            width: 100%;
+            height: 28px;
+            outline: none;
+        }
+
+        @media(max-width: 500px) {
+            .reproductor-flotante {
+                bottom: 12px;
+                right: 12px;
+                left: 12px;
+                max-width: none;
+                justify-content: center;
+            }
+        }
+        .calendario {
+    width: 280px;
+    margin: 25px auto;
+    padding: 20px;
+    background: #fff5fa;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 5px 15px #d9a9c855;
+}
+
+.calendario h2 {
+    color: #9363a9;
+    font-size: 21px;
+}
+
+.dias, .numeros {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 7px;
+}
+
+.dias span {
+    color: #a66caa;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.numeros {
+    margin-top: 15px;
+}
+
+.numeros span {
+    padding: 9px 0;
+    font-size: 13px;
+    color: #655568;
+}
+
+.numeros .especial {
+    background: #bd83d5;
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    box-shadow: 0 0 12px #bd83d5;
+}
+
+    </style>
+</head>
+
+<body class="fondo-carta">
+
+    <main class="pagina-carta">
+
+        <a class="volver" href="index.html">← Volver al inicio</a>
+
+        <section class="papel">
+            <h1 style=" color: ;">Feliz cumpleaños hermosa ♡</h1>
+
+            <p> Querida vale:</p>
+
+            <p align="justify">
+             Feliz cumpleaños mi vida hermosa, no tienes idea de cuánto te amo, eres el amor de mi vida, mi mundo entero, hoy cumples 18 añitos y estoy muy
+             feliz de poder verte crecer, me siento tan afortunada por tenerte a mi lado, eres la mejor persona que he conocido en mi vida, eres tan hermosa, 
+             tan educada, tan perfecta, jamás me había enamorado tanto, amo absolutamente todo de ti, amo tu personalidad, tu hermosa sonrisa, tu físico, tu 
+             forma de expresarte, tu forma de amar, amo todo, eres mi mujer soñada, tu me haces sentir demasiado, eres mi regalo de Dios y nunca me voy a 
+             cansar de decirtelo, te amo con todo lo que soy, siempre te voy a cuidar, voy a dedicar mi vida a hacerte feliz cada dia, estoy tan 
+             enamorada de ti, me haces la mujer mas feliz del universo con tan solo existir.
+            </p>
+
+            <p align="justify">
+            Desde que te conocí sentí una conexión contigo, como si algo me dijera que necesitábamos conocernos, siempre quise conocerte, aunque al inicio todo
+             era incierto y no sabiamos si realmente iba a funcionar o si llegariamos a ser algo nunca dude en lo nuestro, siento que de alguna manera estábamos conectadas o destinadas, como si en otra vida ya nos hubiéramos conocido, fue algo que nunca voy a poder explicar pero me siento tan afortunada de que llegaras a mi vida, me regresaste las ganas de vivir, eras lo que me hacia falta, la paz que necesitaba, eres lo mejor que me ha pasado en la vida, volvería a vivir absolutamente todo a tu lado, amo tanto estar en tu vida, amarnos y cuidarnos, quiero seguir creciendo a tu lado, seguir conociendote, quiero casarme contigo, formar una familia juntas, cumplir nuestros sueños, viajar por el mundo, quiero ser tu lugar seguro, que puedas confiar en mi, quiero hacer todo a tu lado, eres la mujer de mi vida, creeme que estas en buenas manos, no quiero lastimarte al contrario quiero que sepas que estas segura conmigo, siempre te voy a cuidar, eres y siempre vas a ser mi prioridad, mi unico plan de vida es a tu lado, solo quiero vivir muy feliz contigo y siempre ser solo <i>tu y yo, val y esme</i>, te juro que jamás va a haber otra persona, soy tan tuya que deje de ser mía y me encanta serlo, amo compartir mi vida contigo.
+
+            </p>
+
+            <p align="justify">
+            Deseo que tengas un lindo cumpleaños ricitos bella, te amo con toda mi alma, recuerda que siempre te voy a amar con todo lo que soy, siempre voy a 
+            estar para ti, en las buenas en las malas y en las peores, quiero todo contigo, prometo por la garrita rosita que te voy a amar por toda la eternidad, te amo tanto como no tienes idea, estoy loca de amor por ti, gracias por existir, eres el amor de mi alma.
+            </p>
+            <p>
+            <i>Felices 18 añitos mi bonita</i>
+            </p>
+
+            <div class="calendario">
+    <h2>NOVIEMBRE 2026 ♡</h2>
+
+    <div class="dias">
+        <span>DOM</span><span>LUN</span>
+        <span>MAR</span><span>MIÉ</span>
+        <span>JUE</span><span>VIE</span>
+        <span>SÁB</span>
+    </div>
+
+    <div class="numeros">
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+        <span>6</span>
+        <span>7</span>
+        <span>8</span>
+        <span>9</span>
+        <span>10</span>
+        <span>11</span>
+        <span>12</span>
+        <span class="especial">13 ♥</span>
+        <span>14</span>
+        <span>15</span>
+        <span>16</span>
+        <span>17</span>
+        <span>18</span>
+        <span>19</span>
+        <span>20</span>
+        <span>21</span>
+        <span>22</span>
+        <span>23</span>
+        <span>24</span>
+        <span>25</span>
+        <span>26</span>
+        <span>27</span>
+        <span>28</span>
+        <span>29</span>
+        <span>30</span>
+    </div>
+</div>
+
+
+            <p class="firma">
+                Con todo mi amor,<br>
+                Esme ♡
+            </p>
+
+        </section>
+
+        <!-- GALERÍA DE FOTOS -->
+
+        <section class="seccion-recuerdos">
+
+            <h2>Nuestros recuerdos ♡</h2>
+
+            <div class="galeria-fotos">
+
+                <img src="valeyesme/v (9).jpg" alt="Nuestro recuerdo 1">
+
+                <img src="valeyesme/v (3).jpg" alt="Nuestro recuerdo 2">
+
+                <img src="valeyesme/v (1).jpg" alt="Nuestro recuerdo 3">
+
+                <img src="valeyesme/v (7).jpg" alt="Nuestro recuerdo 4">
+
+            </div>
+
+        </section>
+
+        <!-- GALERÍA DE VIDEOS -->
+
+        <section class="seccion-videos">
+
+            <h2>Mis mejores momentos son a tu lado ♡</h2>
+
+            <video class="video-recuerdo" controls autoplay muted loop>
+                <source src="videos/video (29).mp4" type="video/mp4">
+                Tu navegador no puede reproducir este video.
+            </video>
+
+            <video class="video-recuerdo" controls autoplay muted loop>
+                <source src="videos/video (32).mp4" type="video/mp4">
+                Tu navegador no puede reproducir este video.
+            </video>
+
+        </section>
+
+        <a class="boton" href="galeria.html">Ver más recuerdos →</a>
+
+    </main>
+    <div class="reproductor-flotante">
+        <img src="valeyesme/v (8).jpg" alt="Foto musical" class="reproductor-foto">
+        <div class="reproductor-info">
+            <span>♪ To be loved, and to be in love ♡</span>
+            <audio controls loop>
+                <source src="audios/18.mp3" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+            </audio>
+        </div>
+    </div>
+
+</body>
+</html>
